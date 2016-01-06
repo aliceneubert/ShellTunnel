@@ -1,3 +1,5 @@
+from encryption import Encrypter as enc
+
 class message:
     def __init__(self, command, data):
         self.command = command
@@ -5,20 +7,23 @@ class message:
 
     def getMessage(self):
         message = ""
-        message += self.command
+        message += enc.encrypt(self.command)
         message += "\n"
-        message += str(self.data.count("\n")+1)
+        message += enc.encrypt(str(self.data.count("\n")+1))
         message += "\n"
-        message += self.data
+        for line in self.data.split("\n"):
+            message += enc.encrypt(line)
+            message += "\n"
         return message
 
     @staticmethod
     def readMessage(instream):
         command = instream.readline().strip()
-        lines = int(instream.readline().strip())
+        command = enc.decrypt(command)
+        lines = int(enc.decrypt(instream.readline().strip()))
         data = ""
         for line in range(lines):
-            data+=instream.readline()
+            data+=enc.decrypt(instream.readline().strip())+"\n"
         return message(command, data)
 
     def __str__(self):

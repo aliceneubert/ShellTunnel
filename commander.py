@@ -11,7 +11,7 @@ def leave():
     sys.exit()
 
 def writeFile(name, stream):
-    with open("newfile.test", 'w') as outFile:
+    with open("otherfile.txt", 'w') as outFile:
         outFile.write(stream)
 
 prompt = "Say: "
@@ -45,7 +45,7 @@ while True:
         sock.connect((HOST, PORT))
         sock.sendall(mes.getMessage())
         received = sock.recv(1024)
-        print received
+#        print received
     except socket.error as se:
         print se
     except EOFError as eof:

